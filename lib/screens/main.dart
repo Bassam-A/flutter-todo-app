@@ -92,13 +92,7 @@ class _MainPageState extends State<MainPage> {
                     controller: addTodoFieldController,
                     maxLines: null,
                     decoration: InputDecoration(
-                      hintText: 'What todo...',
-                      focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(width: 1, color: Colors.black54)),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(width: 1, color: Colors.black54)),
+                      labelText: "What todo..."
                     ),
                   ),
                 ),
