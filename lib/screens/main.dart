@@ -14,13 +14,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final addTodoFieldController = TextEditingController();
-  List tasks = [
-    {"text": "1", "done": false},
-    {"text": "2", "done": false},
-    {"text": "3", "done": false},
-    {"text": "4", "done": false},
-    {"text": "5", "done": false},
-  ];
+  List tasks = [];
 
   bool hide_completed = false;
 
@@ -63,7 +57,15 @@ class _MainPageState extends State<MainPage> {
             height: 20,
           ),
           ListBody(
-            children: todoItems(),
+            children: tasks.length == 0
+                ? [
+                    Text(
+                      "Nothing todo today.",
+                      style: GoogleFonts.poppins(
+                          fontSize: 20, fontWeight: FontWeight.w600),
+                    )
+                  ]
+                : todoItems(),
           )
         ],
       ),
@@ -86,27 +88,37 @@ class _MainPageState extends State<MainPage> {
               children: [
                 SizedBox(
                   width: 200,
-                  height: 50,
                   child: TextField(
                     controller: addTodoFieldController,
+                    maxLines: null,
                     decoration: InputDecoration(
                       hintText: 'What todo...',
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.black54)),
-                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.black54)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1, color: Colors.black54)),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1, color: Colors.black54)),
                     ),
                   ),
                 ),
-                SizedBox(height: 8,),
-                ElevatedButton(onPressed: (){
-                  Navigator.pop(context);
-                  setState(() {
-                    tasks.add({"text":addTodoFieldController.text, "done":false});
-                    addTodoFieldController.clear();
-                  });
-                }, child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                  child: Icon(Icons.add),
-                ),),
+                SizedBox(
+                  height: 8,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    setState(() {
+                      tasks.add(
+                          {"text": addTodoFieldController.text, "done": false});
+                      addTodoFieldController.clear();
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    child: Icon(Icons.add),
+                  ),
+                ),
               ],
             ),
           ),
@@ -117,15 +129,15 @@ class _MainPageState extends State<MainPage> {
 
   List<Widget> todoItems() {
     List<Widget> items = [];
-    for (var task in tasks) {
+    for (int i = 0; i < tasks.length; i++) {
       // if(hide_completed && task['done']) continue;
-      items.add(todoItem(task));
+      items.add(todoItem(tasks[i], i));
     }
 
     return items;
   }
 
-  Widget todoItem(Map task) {
+  Widget todoItem(Map task, index) {
     bool visible = true;
     if (hide_completed && task['done']) visible = false;
 
@@ -143,6 +155,17 @@ class _MainPageState extends State<MainPage> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         ),
         title: Text(task['text']),
+        trailing: IconButton(
+          onPressed: () {
+            setState(() {
+              tasks.removeAt(index);
+            });
+          },
+          icon: Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
+        ),
       ),
     );
   }

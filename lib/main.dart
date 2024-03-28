@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'الإبداع للإتصالات',
+      title: 'Todo app',
       debugShowCheckedModeBanner: false,
       // theme: Pallete.lightModeAppTheme,
       home: MainPage()
